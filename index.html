@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word to Quote</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f0f2f5;
+      color: #333;
+    }
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 450px;
+      text-align: center;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 18px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .quote {
+      margin-top: 20px;
+      font-style: italic;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Find a Quote by Word</h2>
+    <input type="text" id="wordInput" placeholder="Type a word...">
+    <button onclick="findQuote()">Get Quote</button>
+    <p class="quote" id="quoteDisplay"></p>
+  </div>
+
+  <script>
+    // Existing Famous Quotes
+    const quotes = [
+      "Happiness depends upon ourselves. – Aristotle",
+      "Education is the most powerful weapon to change the world. – Nelson Mandela",
+      "The only limit to our realization of tomorrow is our doubts of today. – Franklin D. Roosevelt",
+      "In the middle of every difficulty lies opportunity. – Albert Einstein",
+      "Do what you can, with what you have, where you are. – Theodore Roosevelt",
+      "It always seems impossible until it’s done. – Nelson Mandela",
+      "Success is not final, failure is not fatal: it is the courage to continue that counts. – Winston Churchill",
+      "The best way to predict the future is to create it. – Peter Drucker",
+      "Life is what happens when you’re busy making other plans. – John Lennon",
+      "Don’t count the days, make the days count. – Muhammad Ali",
+      "Act as if what you do makes a difference. It does. – William James",
+      "Believe you can and you’re halfway there. – Theodore Roosevelt",
+      "Turn your wounds into wisdom. – Oprah Winfrey",
+      "Everything you can imagine is real. – Pablo Picasso",
+      "What we think, we become. – Buddha",
+      "Dream big and dare to fail. – Norman Vaughan",
+      "Happiness is not something ready-made. It comes from your own actions. – Dalai Lama",
+      "Not how long, but how well you have lived is the main thing. – Seneca",
+      "The future belongs to those who believe in the beauty of their dreams. – Eleanor Roosevelt",
+      "Do not go where the path may lead, go instead where there is no path and leave a trail. – Ralph Waldo Emerson",
+      "You miss 100% of the shots you don’t take. – Wayne Gretzky",
+      "Courage is grace under pressure. – Ernest Hemingway",
+      "To live is the rarest thing in the world. Most people exist, that is all. – Oscar Wilde",
+      "If you want to lift yourself up, lift up someone else. – Booker T. Washington",
+      "Happiness is only real when shared. – Christopher McCandless",
+      "What lies behind us and what lies before us are tiny matters compared to what lies within us. – Ralph Waldo Emerson",
+      "Do not let making a living prevent you from making a life. – John Wooden",
+      "Keep your face always toward the sunshine—and shadows will fall behind you. – Walt Whitman",
+      "It is never too late to be what you might have been. – George Eliot",
+      "The secret of getting ahead is getting started. – Mark Twain",
+      "Hardships often prepare ordinary people for an extraordinary destiny. – C.S. Lewis"
+    ];
+
+    // Generated Templates
+    function generateQuote(word) {
+      const templates = [
+        `The power of "${word}" lies in how you choose to use it.`,
+        `Sometimes all you need is a little more "${word}" to change everything.`,
+        `Without "${word}", life loses part of its meaning.`,
+        `Every day is a chance to create more "${word}".`,
+        `"${word}" is not something you find, it's something you create.`,
+        `Great minds are fueled by "${word}".`,
+        `Even the smallest act of "${word}" can make a big difference.`,
+        `If you hold onto "${word}", you will never be lost.`,
+        `The secret of happiness is hidden in "${word}".`,
+        `Your journey begins the moment you believe in "${word}".`,
+        `True strength is born from "${word}".`,
+        `"${word}" is the bridge between who you are and who you want to be.`,
+        `Never underestimate the impact of "${word}" on someone's life.`,
+        `Great leaders inspire others through "${word}".`,
+        `When everything fails, let "${word}" guide you.`,
+        `The essence of life is found in "${word}".`,
+        `"${word}" is the light that brightens even the darkest path.`,
+        `No dream is too big when it is powered by "${word}".`,
+        `The world becomes a better place when you share "${word}".`,
+        `Sometimes the answer you seek is hidden in "${word}".`,
+        `What you plant with "${word}", you harvest in joy.`,
+        `Every story worth telling begins with "${word}".`,
+        `Choose "${word}" today, and your tomorrow will be brighter.`,
+        `"${word}" is not weakness, it is the ultimate strength.`,
+        `Even in silence, "${word}" speaks loudly.`,
+        `Your destiny is shaped by how you treat "${word}".`,
+        `Let your actions reflect the "${word}" in your heart.`,
+        `Great art is born from "${word}".`,
+        `Those who seek "${word}" always find hope.`,
+        `At the core of every success is a seed of "${word}".`,
+        `Without "${word}", courage has no meaning.`,
+        `The foundation of every relationship is built on "${word}".`,
+        `If you lose "${word}", you lose your way.`,
+        `"${word}" is the compass of the human spirit.`
+      ];
+      return templates[Math.floor(Math.random() * templates.length)];
+    }
+
+    // Detect non-English words
+    function isEnglish(word) {
+      return /^[A-Za-z\s]+$/.test(word);
+    }
+
+    // Main Function
+    function findQuote() {
+      const word = document.getElementById("wordInput").value.trim();
+
+      const display = document.getElementById("quoteDisplay");
+
+      if (!isEnglish(word)) {
+        display.textContent = "wlak elnelak en englai chou bek ma b tefham";
+        return;
+      }
+
+      const lowerWord = word.toLowerCase();
+      const filtered = quotes.filter(q => q.toLowerCase().includes(lowerWord));
+
+      if (filtered.length > 0) {
+        const randomQuote = filtered[Math.floor(Math.random() * filtered.length)];
+        display.textContent = randomQuote;
+      } else {
+        display.textContent = generateQuote(word);
+      }
+    }
+  </script>
+</body>
+</html>
